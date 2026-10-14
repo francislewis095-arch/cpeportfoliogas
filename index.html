@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Emmanuel Jasper Gas | Computer Engineering & AI Portfolio</title>
+<meta name="description" content="Portfolio of Emmanuel Jasper Gas, BS Computer Engineering student at Mapúa University, DOST-SEI Scholar, and AI/Data Analytics Researcher.">
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          brand: {
+            teal: '#3ee0cf',
+            indigo: '#8f86ff',
+            pink: '#ff7aa2',
+            darkBg: '#070b14',
+            darkSurf: '#10182a',
+            darkLine: '#22304a'
+          }
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          display: ['Space Grotesk', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace']
+        }
+      }
+    }
+  }
+</script>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #070b14;
+  --surf: #10182a;
+  --surf-glass: rgba(16, 24, 42, 0.75);
+  --ink: #eaf0fb;
+  --mute: #9db0cc;
+  --line: #22304a;
+  --a1: #3ee0cf;
+  --a2: #8f86ff;
+  --a3: #ff7aa2;
+  --grad: linear-gradient(120deg, var(--a1), var(--a2) 55%, var(--a3));
+  --sh: 0 20px 50px -26px rgba(0, 0, 0, 0.8);
+}
+
+:root[data-theme="light"], html.light {
+  --bg: #f4f7fb;
+  --surf: #ffffff;
+  --surf-glass: rgba(255, 255, 255, 0.85);
+  --ink: #0f1a2b;
+  --mute: #52627a;
+  --line: #dbe3ee;
+  --a1: #0e8f86;
+  --a2: #5b4bdb;
+  --a3: #e0527a;
+  --sh: 0 20px 50px -26px rgba(20, 40, 90, 0.2);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% 100%;
+  animation: shift 8s linear infinite;
+}
+
+@keyframes shift {
+  to { background-position: 200% 0; }
+}
+
+.glass-panel {
+  background: var(--surf-glass);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--line);
+  box-shadow: var(--sh);
+}
+
+/* Cursor Glow */
+#glow {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 450px;
+  height: 450px;
+  margin: -225px 0 0 -225px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--a2) 18%, transparent), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Ambient Background Blobs */
+.bg-blobs i {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.3;
+  animation: drift 22s ease-in-out infinite alternate;
+}
+.bg-blobs i:nth-child(1) { width: 45vw; height: 45vw; left: -10vw; top: -10vw; background: var(--a1); }
+.bg-blobs i:nth-child(2) { width: 40vw; height: 40vw; right: -10vw; top: 25vh; background: var(--a2); animation-delay: -7s; }
+.bg-blobs i:nth-child(3) { width: 35vw; height: 35vw; left: 25vw; bottom: -10vw; background: var(--a3); animation-delay: -14s; }
+
+@keyframes drift {
+  to { transform: translate(6vw, -5vh) scale(1.15); }
+}
+
+/* Typewriter Cursor */
+.type-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: var(--a1);
+  vertical-align: -2px;
+  margin-left: 4px;
+  animation: blink 1s steps(2) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Reveal Animations */
+.rv {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.rv.in {
+  opacity: 1;
+  transform: none;
+}
+</style>
+</head>
+<body class="relative min-h-screen">
+
+<!-- Scroll Progress Indicator -->
+<div id="prog" class="fixed top-0 left-0 h-[3px] bg-gradient-to-r from-[#3ee0cf] via-[#8f86ff] to-[#ff7aa2] z-50 w-0 transition-all duration-100"></div>
+
+<!-- Ambient Dynamic Background -->
+<div class="bg-blobs fixed inset-0 -z-20 pointer-events-none" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="fixed inset-0 -z-10 opacity-30 pointer-events-none bg-[radial-gradient(#22304a_1px,transparent_1px)] [background-size:32px_32px]"></div>
+<div id="glow" aria-hidden="true"></div>
+
+<!-- NAVIGATION BAR -->
+<header class="fixed top-4 left-1/2 -translate-x-1/2 w-[min(1080px,calc(100vw-24px))] z-40">
+  <div class="glass-panel rounded-full px-5 py-3 flex items-center justify-between">
+    <a href="#home" class="font-display font-bold text-xl text-[var(--ink)] tracking-tight">
+      EJ<span class="text-[#3ee0cf]">.</span>gas
+    </a>
+    
+    <!-- Nav Links (Desktop) -->
+    <nav id="navMenu" class="hidden md:flex items-center gap-1 font-medium text-sm text-[var(--mute)]">
+      <a href="#home" class="px-3.5 py-1.5 rounded-full hover:text-[var(--ink)] hover:bg-white/10 transition">Home</a>
+      <a href="#about" class="px-3.5 py-1.5 rounded-full hover:text-[var(--ink)] hover:bg-white/10 transition">About</a>
+      <a href="#education" class="px-3.5 py-1.5 rounded-full hover:text-[var(--ink)] hover:bg-white/10 transition">Education</a>
+      <a href="#experience" class="px-3.5 py-1.5 rounded-full hover:text-[var(--ink)] hover:bg-white/10 transition">Experience</a>
+      <a href="#projects" class="px-3.5 py-1.5 rounded-full hover:text-[var(--ink)] hover:bg-white/10 transition">Projects</a>
+      <a href="#certifications" class="px-3.5 py-1.5 rounded-full hover:text-[var(--ink)] hover:bg-white/10 transition">Certifications</a>
+      <a href="#contact" class="px-3.5 py-1.5 rounded-full hover:text-[var(--ink)] hover:bg-white/10 transition">Contact</a>
+    </nav>
+
+    <!-- Right Controls -->
+    <div class="flex items-center gap-2">
+      <span class="hidden sm:inline-block text-[11px] font-mono px-2.5 py-1 rounded-full border border-teal-500/30 text-teal-400 bg-teal-500/10">
+        DOST-SEI Scholar
+      </span>
+      <button id="themeBtn" title="Toggle Theme" class="w-10 h-10 rounded-full border border-[var(--line)] flex items-center justify-center text-[var(--ink)] hover:bg-white/10 transition">
+        ◐
+      </button>
+      <button id="mobileMenuBtn" class="md:hidden w-10 h-10 rounded-full border border-[var(--line)] flex items-center justify-center text-[var(--ink)]">
+        ☰
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown -->
+  <div id="mobileDropdown" class="hidden md:hidden mt-2 glass-panel rounded-2xl p-4 flex flex-col gap-2 font-medium text-sm text-[var(--mute)]">
+    <a href="#home" class="px-3 py-2 rounded-lg hover:bg-white/10">Home</a>
+    <a href="#about" class="px-3 py-2 rounded-lg hover:bg-white/10">About</a>
+    <a href="#education" class="px-3 py-2 rounded-lg hover:bg-white/10">Education</a>
+    <a href="#experience" class="px-3 py-2 rounded-lg hover:bg-white/10">Experience</a>
+    <a href="#projects" class="px-3 py-2 rounded-lg hover:bg-white/10">Projects</a>
+    <a href="#certifications" class="px-3 py-2 rounded-lg hover:bg-white/10">Certifications</a>
+    <a href="#contact" class="px-3 py-2 rounded-lg hover:bg-white/10">Contact</a>
+  </div>
+</header>
+
+<!-- MAIN CONTENT WRAPPER -->
+<main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+
+  <!-- HERO SECTION -->
+  <section id="home" class="min-h-[85vh] flex flex-col justify-center py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left Hero Text -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-teal-500/30 bg-teal-500/10 text-teal-400 text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-teal-400 animate-ping"></span>
+          BS Computer Engineering · Mapúa University
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-[var(--ink)]">
+          Hi, I'm <br>
+          <span class="grad-text">Emmanuel Jasper Gas</span>
+        </h1>
+
+        <div class="font-mono text-lg sm:text-xl text-[var(--mute)] h-8 flex items-center">
+          <span class="text-teal-400 font-semibold mr-2">Specializing in:</span>
+          <span id="typewriter"></span><span class="type-cursor"></span>
+        </div>
+
+        <p class="text-base sm:text-lg text-[var(--mute)] max-w-xl leading-relaxed">
+          DOST-SEI Scholar studying Computer Engineering at Mapúa University. Dedicated to integrating hardware logic systems with AI engineering, data analytics, and real-time urban simulations.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <a href="#projects" class="px-6 py-3 rounded-full bg-gradient-to-r from-[#3ee0cf] via-[#8f86ff] to-[#ff7aa2] text-white font-semibold text-sm shadow-lg hover:opacity-95 transition transform hover:-translate-y-0.5">
+            View Projects & Research
+          </a>
+          <a href="#contact" class="px-6 py-3 rounded-full border border-[var(--line)] bg-white/5 hover:bg-white/10 text-[var(--ink)] font-semibold text-sm transition">
+            Get In Touch
+          </a>
+          <a href="https://www.linkedin.com/in/emmanuel-gas-6081b5380" target="_blank" rel="noopener" class="w-12 h-12 rounded-full bg-[#0a66c2] flex items-center justify-center text-white hover:scale-105 transition" title="LinkedIn Profile">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Official Avatar Portrait Card -->
+      <div class="lg:col-span-5 flex justify-center">
+        <div class="relative group max-w-xs sm:max-w-sm w-full">
+          <!-- Gradient Halo Glow -->
+          <div class="absolute -inset-1 bg-gradient-to-r from-[#3ee0cf] via-[#8f86ff] to-[#ff7aa2] rounded-3xl blur-lg opacity-70 group-hover:opacity-100 transition duration-500"></div>
+          
+          <div class="relative glass-panel rounded-2xl p-4 overflow-hidden border border-[var(--line)]">
+            <div class="relative aspect-[3/4] rounded-xl overflow-hidden bg-slate-900">
+              <img 
+                src="Portrait.jpg" 
+                alt="Emmanuel Jasper Gas" 
+                class="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition duration-700"
+                onerror="this.onerror=null; this.src='https://placehold.co/400x533/10182a/eaf0fb?text=Emmanuel+Jasper+Gas';"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#070b14] via-transparent to-transparent opacity-80"></div>
+              
+              <!-- Badges on image -->
+              <div class="absolute bottom-4 left-4 right-4 text-left">
+                <span class="text-xs font-mono text-teal-400 block font-semibold">Emmanuel Jasper Gas</span>
+                <span class="text-xs text-slate-300">Mapúa University · Class A37</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- QUICK STATS BAR -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-8 rv">
+    <div class="glass-panel p-5 rounded-2xl text-center">
+      <div class="text-3xl font-bold font-display grad-text">DOST-SEI</div>
+      <div class="text-xs text-[var(--mute)] mt-1 font-mono">Scholarship Grantee</div>
+    </div>
+    <div class="glass-panel p-5 rounded-2xl text-center">
+      <div class="text-3xl font-bold font-display text-teal-400">2</div>
+      <div class="text-xs text-[var(--mute)] mt-1 font-mono">DataCamp Certifications</div>
+    </div>
+    <div class="glass-panel p-5 rounded-2xl text-center">
+      <div class="text-3xl font-bold font-display text-indigo-400">DLSU</div>
+      <div class="text-xs text-[var(--mute)] mt-1 font-mono">AI Research Intern</div>
+    </div>
+    <div class="glass-panel p-5 rounded-2xl text-center">
+      <div class="text-3xl font-bold font-display text-pink-400">PSHS</div>
+      <div class="text-xs text-[var(--mute)] mt-1 font-mono">MIMAROPA Scholar</div>
+    </div>
+  </div>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="py-16 border-t border-[var(--line)]">
+    <span class="text-xs font-mono text-teal-400 uppercase tracking-widest block mb-2 rv">01 · About Me</span>
+    <h2 class="text-3xl sm:text-4xl font-bold mb-6 rv">Driven by hardware logic & <span class="grad-text">data science.</span></h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+      <div class="md:col-span-7 space-y-4 text-[var(--mute)] leading-relaxed rv">
+        <p>
+          I am a 1st-year Computer Engineering student at Mapúa University (Section A37) and a proud DOST-SEI Scholar. My academic journey began at the Philippine Science High School – MIMAROPA Region Campus (PSHS-MRC), where I graduated as a Director's Lister and developed a strong passion for quantitative sciences.
+        </p>
+        <p>
+          My interest lies in bridging physical systems and computational intelligence — from hardware logic, thermodynamics, and linear algebra to edge AI, data analytics, and SUMO traffic simulations.
+        </p>
+        <div class="p-4 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-300 text-sm">
+          <strong>Current Focus:</strong> High-throughput IoT monitoring, algorithmic traffic flow optimization, and hardware-software integration.
+        </div>
+      </div>
+
+      <div class="md:col-span-5 space-y-3 rv">
+        <div class="glass-panel p-4 rounded-xl flex items-center gap-4">
+          <div class="text-2xl">🎓</div>
+          <div>
+            <div class="font-bold text-sm text-[var(--ink)]">DOST-SEI Scholar</div>
+            <div class="text-xs text-[var(--mute)]">Department of Science and Technology</div>
+          </div>
+        </div>
+        <div class="glass-panel p-4 rounded-xl flex items-center gap-4">
+          <div class="text-2xl">🏛️</div>
+          <div>
+            <div class="font-bold text-sm text-[var(--ink)]">Mapúa University</div>
+            <div class="text-xs text-[var(--mute)]">BS Computer Engineering (Section A37)</div>
+          </div>
+        </div>
+        <div class="glass-panel p-4 rounded-xl flex items-center gap-4">
+          <div class="text-2xl">🔬</div>
+          <div>
+            <div class="font-bold text-sm text-[var(--ink)]">DLSU Research Intern</div>
+            <div class="text-xs text-[var(--mute)]">Data Analytics & AI (SIP 2025)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION SECTION -->
+  <section id="education" class="py-16 border-t border-[var(--line)]">
+    <span class="text-xs font-mono text-teal-400 uppercase tracking-widest block mb-2 rv">02 · Education</span>
+    <h2 class="text-3xl sm:text-4xl font-bold mb-8 rv">Academic <span class="grad-text">Foundation.</span></h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <!-- Mapúa Card -->
+      <div class="glass-panel p-6 rounded-2xl border border-[var(--line)] hover:border-teal-400/50 transition rv">
+        <div class="flex justify-between items-start mb-3">
+          <span class="text-xs font-mono text-teal-400 bg-teal-500/10 px-2.5 py-1 rounded-full border border-teal-500/30">2026 – Present</span>
+          <span class="text-xs text-[var(--mute)] font-mono">Manila, PH</span>
+        </div>
+        <h3 class="text-xl font-bold text-[var(--ink)] mb-1">Mapúa University</h3>
+        <p class="text-sm font-semibold text-indigo-400 mb-3">BS Computer Engineering · Section A37</p>
+        <p class="text-xs text-[var(--mute)] leading-relaxed mb-4">
+          Rigorous coursework spanning Computer Programming, Discrete Mathematics, Hardware Logic Systems, Calculus, and Physics for Engineers.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-[11px] px-2.5 py-0.5 rounded-md bg-white/5 border border-[var(--line)] text-[var(--mute)]">Hardware Logic</span>
+          <span class="text-[11px] px-2.5 py-0.5 rounded-md bg-white/5 border border-[var(--line)] text-[var(--mute)]">Thermodynamics</span>
+          <span class="text-[11px] px-2.5 py-0.5 rounded-md bg-white/5 border border-[var(--line)] text-[var(--mute)]">Linear Algebra</span>
+        </div>
+      </div>
+
+      <!-- PSHS Card -->
+      <div class="glass-panel p-6 rounded-2xl border border-[var(--line)] hover:border-indigo-400/50 transition rv">
+        <div class="flex justify-between items-start mb-3">
+          <span class="text-xs font-mono text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/30">2020 – 2026</span>
+          <span class="text-xs text-[var(--mute)] font-mono">MIMAROPA Campus</span>
+        </div>
+        <h3 class="text-xl font-bold text-[var(--ink)] mb-1">Philippine Science High School</h3>
+        <p class="text-sm font-semibold text-indigo-400 mb-3">PSHS-MRC · STEM Curriculum</p>
+        <p class="text-xs text-[var(--mute)] leading-relaxed mb-4">
+          Graduated on the Director's List. Served as Fitness Club Treasurer (2024–2026) managing club operations, finances, and wellness initiatives.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-[11px] px-2.5 py-0.5 rounded-md bg-white/5 border border-[var(--line)] text-[var(--mute)]">Director's Lister</span>
+          <span class="text-[11px] px-2.5 py-0.5 rounded-md bg-white/5 border border-[var(--line)] text-[var(--mute)]">Club Treasurer</span>
+          <span class="text-[11px] px-2.5 py-0.5 rounded-md bg-white/5 border border-[var(--line)] text-[var(--mute)]">DOST-SEI Qualifier</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE SECTION -->
+  <section id="experience" class="py-16 border-t border-[var(--line)]">
+    <span class="text-xs font-mono text-teal-400 uppercase tracking-widest block mb-2 rv">03 · Experience</span>
+    <h2 class="text-3xl sm:text-4xl font-bold mb-8 rv">Research & <span class="grad-text">Professional Training.</span></h2>
+
+    <div class="space-y-8">
+      
+      <!-- DLSU SIP Card with Photo -->
+      <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-[var(--line)] hover:border-teal-400/40 transition rv">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <div class="lg:col-span-7 space-y-4">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-mono">Research Internship</span>
+              <span class="text-xs text-[var(--mute)] font-mono">De La Salle University · CCS</span>
+            </div>
+
+            <h3 class="text-2xl font-bold text-[var(--ink)]">
+              Data Analytics & AI Research Intern
+            </h3>
+            <p class="text-sm font-medium text-indigo-400">
+              DLSU College of Computer Studies — Science Immersion Program (SIP 2025)
+            </p>
+
+            <p class="text-sm text-[var(--mute)] leading-relaxed">
+              Participated in intensive computer science research under faculty guidance. Conducted micro-simulation traffic modeling using <strong>SUMO (Simulation of Urban MObility)</strong>, tuned traffic signal parameters, and analyzed speed bottlenecks in urban road networks.
+            </p>
+
+            <ul class="space-y-2 text-xs text-[var(--mute)] list-disc list-inside">
+              <li>Modeled multi-lane urban intersections and traffic density flow rates.</li>
+              <li>Engineered algorithmic signal control schedules to minimize bottleneck delays.</li>
+              <li>Collaborated with research peers and presented final findings to DLSU faculty.</li>
+            </ul>
+
+            <div class="flex flex-wrap gap-2 pt-2">
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/5 border border-[var(--line)] text-teal-300">SUMO Traffic Simulation</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/5 border border-[var(--line)] text-indigo-300">Data Analytics</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-white/5 border border-[var(--line)] text-pink-300">DLSU Faculty Presentation</span>
+            </div>
+          </div>
+
+          <!-- Photo: DLSU SIP Presentation -->
+          <div class="lg:col-span-5">
+            <div class="group relative rounded-xl overflow-hidden border border-[var(--line)] shadow-xl">
+              <img 
+                src="dlsu sip presentation.webp" 
+                alt="Emmanuel Jasper Gas - DLSU Science Immersion Program Presentation" 
+                class="w-full h-auto object-cover group-hover:scale-105 transition duration-500"
+                onerror="this.onerror=null; this.src='https://placehold.co/600x400/10182a/eaf0fb?text=DLSU+SIP+Research+Group';"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+              <div class="absolute bottom-3 left-3 right-3 text-xs text-white">
+                <span class="font-semibold block text-teal-300">DLSU SIP Research Cohort</span>
+                <span class="text-slate-300 text-[11px]">Presentation at College of Computer Studies</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- GoTeam Training Card -->
+      <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-[var(--line)] hover:border-indigo-400/40 transition rv">
+        <div class="flex flex-wrap justify-between items-start gap-4 mb-3">
+          <div>
+            <span class="px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-mono">Professional Training</span>
+            <h3 class="text-xl font-bold text-[var(--ink)] mt-2">GoTeam AI Empowerment Training</h3>
+          </div>
+          <span class="text-xs text-[var(--mute)] font-mono">GoTeam Professional Development</span>
+        </div>
+        <p class="text-sm text-[var(--mute)] leading-relaxed">
+          Completed structured AI integration workshops focusing on productivity workflows, prompt engineering, automated data transformation, and developer toolstacks.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INTERACTIVE TRAFFIC SIMULATION CANVAS -->
+  <section class="py-16 border-t border-[var(--line)]">
+    <span class="text-xs font-mono text-teal-400 uppercase tracking-widest block mb-2 rv">Interactive Demo</span>
+    <h2 class="text-3xl sm:text-4xl font-bold mb-4 rv">Smart City IoT & <span class="grad-text">Traffic Simulator.</span></h2>
+    <p class="text-sm text-[var(--mute)] mb-8 max-w-2xl rv">
+      An interactive HTML5 simulation inspired by my SUMO traffic research at DLSU. Modify parameters live to test traffic flow throughput and signal cycles.
+    </p>
+
+    <div class="glass-panel p-6 rounded-2xl border border-[var(--line)] rv">
+      <!-- Controls Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-4 pb-4 border-b border-[var(--line)]">
+        <div class="flex items-center gap-3">
+          <button id="simPlayBtn" class="px-4 py-2 rounded-full bg-teal-500 text-slate-950 font-bold text-xs hover:bg-teal-400 transition">
+            Pause Sim
+          </button>
+          <button id="simPhaseBtn" class="px-4 py-2 rounded-full bg-indigo-600 text-white font-bold text-xs hover:bg-indigo-500 transition">
+            Switch Light Phase
+          </button>
+        </div>
+
+        <div class="flex items-center gap-4 text-xs font-mono text-[var(--mute)]">
+          <label class="flex items-center gap-2">
+            Speed Multiplier:
+            <input type="range" id="simSpeedSlider" min="0.5" max="3" step="0.5" value="1" class="w-24 accent-teal-400">
+            <span id="simSpeedVal" class="text-teal-400 font-bold">1.0x</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Canvas -->
+      <div class="relative w-full h-72 bg-[#090d16] rounded-xl overflow-hidden border border-[var(--line)]">
+        <canvas id="simCanvas" class="w-full h-full block"></canvas>
+      </div>
+
+      <!-- Real-Time Metrics Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4 pt-4 border-t border-[var(--line)] text-center text-xs">
+        <div>
+          <span class="text-[var(--mute)] block mb-1">Active Vehicles</span>
+          <span id="mCount" class="text-base font-bold font-mono text-teal-400">0</span>
+        </div>
+        <div>
+          <span class="text-[var(--mute)] block mb-1">Signal Phase</span>
+          <span id="mSignal" class="text-base font-bold font-mono text-indigo-400">EAST-WEST GREEN</span>
+        </div>
+        <div>
+          <span class="text-[var(--mute)] block mb-1">Average Velocity</span>
+          <span id="mSpeed" class="text-base font-bold font-mono text-pink-400">38 km/h</span>
+        </div>
+        <div>
+          <span class="text-[var(--mute)] block mb-1">IoT Node Health</span>
+          <span id="mIoT" class="text-base font-bold font-mono text-emerald-400">100% ONLINE</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS & RESEARCH PAPERS -->
+  <section id="projects" class="py-16 border-t border-[var(--line)]">
+    <span class="text-xs font-mono text-teal-400 uppercase tracking-widest block mb-2 rv">04 · Projects</span>
+    <h2 class="text-3xl sm:text-4xl font-bold mb-8 rv">Engineered Systems & <span class="grad-text">Papers.</span></h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- Project 1: Smart Drainage -->
+      <div class="glass-panel p-6 rounded-2xl border border-[var(--line)] flex flex-col justify-between hover:border-teal-400/50 transition rv">
+        <div>
+          <div class="text-xs font-mono text-teal-400 mb-2">IoT & Embedded Systems</div>
+          <h3 class="text-xl font-bold text-[var(--ink)] mb-2">Smart Drainage IoT Monitoring</h3>
+          <p class="text-xs text-[var(--mute)] leading-relaxed mb-4">
+            An IoT-enabled flood warning system utilizing water level sensors, telemetry algorithms, and real-time alerts to mitigate urban drainage overflows.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-1.5 pt-2">
+          <span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-teal-300">IoT Sensors</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-indigo-300">Telemetry</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-pink-300">C++ Logic</span>
+        </div>
+      </div>
+
+      <!-- Paper 2: UN Youth Network SDG 13 -->
+      <div class="glass-panel p-6 rounded-2xl border border-[var(--line)] flex flex-col justify-between hover:border-indigo-400/50 transition rv">
+        <div>
+          <div class="text-xs font-mono text-indigo-400 mb-2">Research Paper</div>
+          <h3 class="text-xl font-bold text-[var(--ink)] mb-2">SDG 13 Climate Resilience Paper</h3>
+          <p class="text-xs text-[var(--mute)] leading-relaxed mb-4">
+            Position paper presented for the UN Youth Network detailing climate resilience, sustainable urban drainage infrastructure, and youth-led tech initiatives.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-1.5 pt-2">
+          <span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-indigo-300">SDG 13</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-teal-300">Climate Resilience</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-pink-300">UN Youth</span>
+        </div>
+      </div>
+
+      <!-- Project 3: Global Market Integration -->
+      <div class="glass-panel p-6 rounded-2xl border border-[var(--line)] flex flex-col justify-between hover:border-pink-400/50 transition rv">
+        <div>
+          <div class="text-xs font-mono text-pink-400 mb-2">Quantitative Analysis</div>
+          <h3 class="text-xl font-bold text-[var(--ink)] mb-2">Global Market Integration Analysis</h3>
+          <p class="text-xs text-[var(--mute)] leading-relaxed mb-4">
+            Analytical report evaluating macroeconomic metrics, trade dependencies, and cross-border digital financial integration.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-1.5 pt-2">
+          <span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-pink-300">Macroeconomics</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-teal-300">Data Analytics</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-indigo-300">Market Modeling</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS & SKILLS -->
+  <section id="certifications" class="py-16 border-t border-[var(--line)]">
+    <span class="text-xs font-mono text-teal-400 uppercase tracking-widest block mb-2 rv">05 · Certifications & Skills</span>
+    <h2 class="text-3xl sm:text-4xl font-bold mb-8 rv">Verified Credentials & <span class="grad-text">Stack.</span></h2>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Certifications Column -->
+      <div class="lg:col-span-6 space-y-4 rv">
+        <h3 class="text-lg font-bold text-[var(--ink)] mb-2">DataCamp Professional Certifications</h3>
+
+        <div class="glass-panel p-5 rounded-2xl border border-teal-500/30">
+          <div class="flex justify-between items-start mb-2">
+            <div>
+              <div class="font-bold text-sm text-[var(--ink)]">DataCamp Associate Data Analyst</div>
+              <div class="text-xs text-teal-400 font-mono">Issued July 20, 2026</div>
+            </div>
+            <span class="text-xs px-2 py-1 rounded bg-teal-500/10 text-teal-300 border border-teal-500/30">Verified</span>
+          </div>
+          <div class="text-xs text-[var(--mute)] font-mono">Credential ID: DAA0018831443414</div>
+        </div>
+
+        <div class="glass-panel p-5 rounded-2xl border border-indigo-500/30">
+          <div class="flex justify-between items-start mb-2">
+            <div>
+              <div class="font-bold text-sm text-[var(--ink)]">DataCamp AI Engineer for Developers</div>
+              <div class="text-xs text-indigo-400 font-mono">Issued July 22, 2026</div>
+            </div>
+            <span class="text-xs px-2 py-1 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/30">Verified</span>
+          </div>
+          <div class="text-xs text-[var(--mute)] font-mono">Credential ID: AIEDA0018254377524</div>
+        </div>
+      </div>
+
+      <!-- Skills Matrix Column -->
+      <div class="lg:col-span-6 space-y-4 rv">
+        <h3 class="text-lg font-bold text-[var(--ink)] mb-2">Technical Capabilities</h3>
+
+        <div class="glass-panel p-5 rounded-2xl space-y-4">
+          <div>
+            <div class="text-xs font-mono text-[var(--mute)] mb-2">PROGRAMMING & DATA</div>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-[var(--line)] text-teal-300">Python</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-[var(--line)] text-teal-300">SQL</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-[var(--line)] text-teal-300">C / C++</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-[var(--line)] text-teal-300">Pandas & NumPy</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="text-xs font-mono text-[var(--mute)] mb-2">ENGINEERING & MATHEMATICS</div>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-[var(--line)] text-indigo-300">Hardware Logic Systems</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-[var(--line)] text-indigo-300">Linear Algebra</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-[var(--line)] text-indigo-300">Thermodynamics</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-[var(--line)] text-indigo-300">Calculus</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="text-xs font-mono text-[var(--mute)] mb-2">SIMULATION & TOOLS</div>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-[var(--line)] text-pink-300">SUMO Simulator</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-[var(--line)] text-pink-300">Git & GitHub</span>
+              <span class="text-xs px-3 py-1 rounded-full bg-white/5 border border-[var(--line)] text-pink-300">IoT Telemetry</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="py-16 border-t border-[var(--line)]">
+    <span class="text-xs font-mono text-teal-400 uppercase tracking-widest block mb-2 rv">06 · Contact</span>
+    <h2 class="text-3xl sm:text-4xl font-bold mb-8 rv">Get in <span class="grad-text">Touch.</span></h2>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Info Box -->
+      <div class="lg:col-span-5 space-y-4 rv">
+        <div class="glass-panel p-6 rounded-2xl space-y-4">
+          <p class="text-sm text-[var(--mute)] leading-relaxed">
+            Interested in research collaboration, engineering projects, or academic discussions? Reach out anytime!
+          </p>
+
+          <div class="space-y-3 pt-2 text-xs">
+            <a href="mailto:francislewis095@gmail.com" class="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition text-[var(--ink)]">
+              <span class="text-base">✉️</span>
+              <div>
+                <span class="text-[var(--mute)] block">Direct Email</span>
+                <span class="font-mono font-semibold text-teal-400">francislewis095@gmail.com</span>
+              </div>
+            </a>
+
+            <a href="tel:09564616364" class="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition text-[var(--ink)]">
+              <span class="text-base">📞</span>
+              <div>
+                <span class="text-[var(--mute)] block">Mobile / Phone</span>
+                <span class="font-mono font-semibold text-indigo-400">+63 956 461 6364</span>
+              </div>
+            </a>
+
+            <a href="https://www.linkedin.com/in/emmanuel-gas-6081b5380" target="_blank" rel="noopener" class="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition text-[var(--ink)]">
+              <span class="text-base">💼</span>
+              <div>
+                <span class="text-[var(--mute)] block">LinkedIn</span>
+                <span class="font-mono font-semibold text-pink-400">emmanuel-gas-6081b5380</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="lg:col-span-7 rv">
+        <form id="contactForm" class="glass-panel p-6 rounded-2xl space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-mono text-[var(--mute)] mb-1">Your Name</label>
+              <input type="text" id="cName" required placeholder="Jane Doe" class="w-full px-4 py-2.5 rounded-xl bg-black/20 border border-[var(--line)] text-sm text-[var(--ink)] focus:outline-none focus:border-teal-400">
+            </div>
+            <div>
+              <label class="block text-xs font-mono text-[var(--mute)] mb-1">Your Email</label>
+              <input type="email" id="cEmail" required placeholder="jane@example.com" class="w-full px-4 py-2.5 rounded-xl bg-black/20 border border-[var(--line)] text-sm text-[var(--ink)] focus:outline-none focus:border-teal-400">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-mono text-[var(--mute)] mb-1">Subject</label>
+            <input type="text" id="cSubject" required placeholder="Research Inquiry / Project Collaboration" class="w-full px-4 py-2.5 rounded-xl bg-black/20 border border-[var(--line)] text-sm text-[var(--ink)] focus:outline-none focus:border-teal-400">
+          </div>
+
+          <div>
+            <label class="block text-xs font-mono text-[var(--mute)] mb-1">Message</label>
+            <textarea id="cMessage" rows="4" required placeholder="Write your message here..." class="w-full px-4 py-2.5 rounded-xl bg-black/20 border border-[var(--line)] text-sm text-[var(--ink)] focus:outline-none focus:border-teal-400"></textarea>
+          </div>
+
+          <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-[#3ee0cf] via-[#8f86ff] to-[#ff7aa2] text-white font-bold text-sm shadow-md hover:opacity-95 transition">
+            Send Message
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toast" class="fixed bottom-6 right-6 px-5 py-3 rounded-2xl glass-panel border border-teal-400 text-teal-300 text-xs font-mono shadow-2xl transition-all duration-300 translate-y-24 opacity-0 pointer-events-none z-50">
+  <span id="toastMsg">Message sent successfully!</span>
+</div>
+
+<!-- FOOTER -->
+<footer class="py-8 text-center text-xs text-[var(--mute)] border-t border-[var(--line)]">
+  <p>© 2026 Emmanuel Jasper Gas · Computer Engineering Portfolio</p>
+  <p class="mt-1 font-mono text-[11px]">Mapúa University · DOST-SEI Scholar</p>
+</footer>
+
+<!-- JAVASCRIPT LOGIC -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Theme Switcher
+  const themeBtn = document.getElementById('themeBtn');
+  const html = document.documentElement;
+
+  themeBtn.addEventListener('click', () => {
+    const current = html.classList.contains('light') ? 'light' : 'dark';
+    if (current === 'dark') {
+      html.classList.remove('dark');
+      html.classList.add('light');
+      html.setAttribute('data-theme', 'light');
+    } else {
+      html.classList.remove('light');
+      html.classList.add('dark');
+      html.setAttribute('data-theme', 'dark');
+    }
+  });
+
+  // 2. Mobile Menu Toggle
+  const mobileBtn = document.getElementById('mobileMenuBtn');
+  const mobileDropdown = document.getElementById('mobileDropdown');
+  mobileBtn.addEventListener('click', () => {
+    mobileDropdown.classList.toggle('hidden');
+  });
+
+  // 3. Typewriter Effect
+  const phrases = [
+    "AI Engineering.",
+    "Data Analytics.",
+    "SUMO Traffic Simulation.",
+    "Hardware Logic Systems.",
+    "IoT Monitoring."
+  ];
+  let pIdx = 0, cIdx = 0, isDeleting = false;
+  const twEl = document.getElementById('typewriter');
+
+  function typeLoop() {
+    const cur = phrases[pIdx];
+    if (isDeleting) {
+      cIdx--;
+      twEl.textContent = cur.substring(0, cIdx);
+    } else {
+      cIdx++;
+      twEl.textContent = cur.substring(0, cIdx);
+    }
+
+    let speed = isDeleting ? 40 : 80;
+    if (!isDeleting && cIdx === cur.length) {
+      speed = 1800;
+      isDeleting = true;
+    } else if (isDeleting && cIdx === 0) {
+      isDeleting = false;
+      pIdx = (pIdx + 1) % phrases.length;
+      speed = 400;
+    }
+    setTimeout(typeLoop, speed);
+  }
+  typeLoop();
+
+  // 4. Scroll Reveal Observer
+  const rvElements = document.querySelectorAll('.rv');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+      }
+    });
+  }, { threshold: 0.1 });
+  rvElements.forEach(el => observer.observe(el));
+
+  // 5. Scroll Progress Bar
+  const prog = document.getElementById('prog');
+  window.addEventListener('scroll', () => {
+    const winScroll = document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    prog.style.width = ((winScroll / height) * 100) + '%';
+  });
+
+  // 6. Glow cursor follow
+  const glow = document.getElementById('glow');
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.addEventListener('mousemove', (e) => {
+      glow.style.opacity = '1';
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+    });
+  }
+
+  // 7. Contact Form Handler
+  const contactForm = document.getElementById('contactForm');
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toastMsg');
+
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('cName').value;
+    toastMsg.textContent = `Thank you ${name}, your message has been sent!`;
+    toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+    contactForm.reset();
+    setTimeout(() => {
+      toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+    }, 4000);
+  });
+
+  // 8. Interactive Traffic Simulation Canvas Logic
+  const canvas = document.getElementById('simCanvas');
+  const simPlayBtn = document.getElementById('simPlayBtn');
+  const simPhaseBtn = document.getElementById('simPhaseBtn');
+  const simSpeedSlider = document.getElementById('simSpeedSlider');
+  const simSpeedVal = document.getElementById('simSpeedVal');
+
+  const mCount = document.getElementById('mCount');
+  const mSignal = document.getElementById('mSignal');
+  const mSpeed = document.getElementById('mSpeed');
+
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let isRunning = true;
+    let signalState = 'EW'; // 'EW' or 'NS'
+    let speedMult = 1.0;
+
+    function resizeSim() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    resizeSim();
+    window.addEventListener('resize', resizeSim);
+
+    class Vehicle {
+      constructor(dir) {
+        this.dir = dir; // 'EW' or 'NS'
+        this.reset();
+      }
+
+      reset() {
+        if (this.dir === 'EW') {
+          this.x = -20 - Math.random() * 200;
+          this.y = canvas.height / 2 - 12;
+          this.speed = 2 + Math.random() * 1.5;
+        } else {
+          this.x = canvas.width / 2 + 4;
+          this.y = -20 - Math.random() * 200;
+          this.speed = 2 + Math.random() * 1.5;
+        }
+        this.color = ['#3ee0cf', '#8f86ff', '#ff7aa2'][Math.floor(Math.random() * 3)];
+      }
+
+      update() {
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+        const stopLimit = 30;
+
+        if (this.dir === 'EW') {
+          if (signalState === 'NS' && this.x < cx - stopLimit && this.x + this.speed * speedMult >= cx - stopLimit) {
+            return;
+          }
+          this.x += this.speed * speedMult;
+          if (this.x > canvas.width + 30) this.reset();
+        } else {
+          if (signalState === 'EW' && this.y < cy - stopLimit && this.y + this.speed * speedMult >= cy - stopLimit) {
+            return;
+          }
+          this.y += this.speed * speedMult;
+          if (this.y > canvas.height + 30) this.reset();
+        }
+      }
+
+      draw() {
+        ctx.fillStyle = this.color;
+        if (this.dir === 'EW') {
+          ctx.fillRect(this.x, this.y, 14, 8);
+        } else {
+          ctx.fillRect(this.x, this.y, 8, 14);
+        }
+      }
+    }
+
+    const vehicles = [];
+    for (let i = 0; i < 7; i++) vehicles.push(new Vehicle('EW'));
+    for (let i = 0; i < 7; i++) vehicles.push(new Vehicle('NS'));
+
+    function renderSim() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const cx = canvas.width / 2;
+      const cy = canvas.height / 2;
+      const roadW = 40;
+
+      // Draw Roads
+      ctx.fillStyle = '#141d2f';
+      ctx.fillRect(0, cy - roadW/2, canvas.width, roadW);
+      ctx.fillRect(cx - roadW/2, 0, roadW, canvas.height);
+
+      // Dash Lines
+      ctx.strokeStyle = '#283856';
+      ctx.setLineDash([6, 6]);
+      ctx.beginPath();
+      ctx.moveTo(0, cy); ctx.lineTo(canvas.width, cy);
+      ctx.moveTo(cx, 0); ctx.lineTo(cx, canvas.height);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Signal lights
+      ctx.fillStyle = signalState === 'EW' ? '#3ee0cf' : '#ff4757';
+      ctx.beginPath(); ctx.arc(cx - 28, cy - 28, 6, 0, Math.PI * 2); ctx.fill();
+
+      ctx.fillStyle = signalState === 'NS' ? '#3ee0cf' : '#ff4757';
+      ctx.beginPath(); ctx.arc(cx + 28, cy - 28, 6, 0, Math.PI * 2); ctx.fill();
+
+      // Update & Draw Vehicles
+      vehicles.forEach(v => {
+        if (isRunning) v.update();
+        v.draw();
+      });
+
+      // Metrics update
+      mCount.textContent = vehicles.length;
+      mSignal.textContent = signalState === 'EW' ? 'EAST-WEST GREEN' : 'NORTH-SOUTH GREEN';
+      mSpeed.textContent = Math.round(38 * speedMult) + ' km/h';
+
+      if (isRunning) requestAnimationFrame(renderSim);
+    }
+
+    renderSim();
+
+    simPlayBtn.addEventListener('click', () => {
+      isRunning = !isRunning;
+      simPlayBtn.textContent = isRunning ? 'Pause Sim' : 'Resume Sim';
+      if (isRunning) renderSim();
+    });
+
+    simPhaseBtn.addEventListener('click', () => {
+      signalState = signalState === 'EW' ? 'NS' : 'EW';
+    });
+
+    simSpeedSlider.addEventListener('input', (e) => {
+      speedMult = parseFloat(e.target.value);
+      simSpeedVal.textContent = speedMult.toFixed(1) + 'x';
+    });
+
+    // Auto cycle phase every 6 sec
+    setInterval(() => {
+      if (isRunning) signalState = signalState === 'EW' ? 'NS' : 'EW';
+    }, 6000);
+  }
+});
+</script>
+</body>
+</html>
